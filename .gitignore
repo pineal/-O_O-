@@ -1,6 +1,5 @@
-
 *.swp
 
-Algorithms/Huffman_Coding/.Node.h.swp
+*.o
 
-*.swp
+Data_Structure/BST/main

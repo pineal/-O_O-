@@ -7,7 +7,5 @@ class TreeNode {
 		TreeNode* left;
 		TreeNode* right;
 		TreeNode(int val);
-		
-		}			
 };
 #endif
