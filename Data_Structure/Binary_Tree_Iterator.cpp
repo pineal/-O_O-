@@ -98,9 +98,6 @@ class PostorderIterator : public Iterator {
 		}
 };
 
-
-
-
 int main(int argc, const char * argv[]) {
 	TreeNode* n0 = new TreeNode(0);
 	TreeNode* n1 = new TreeNode(1);
