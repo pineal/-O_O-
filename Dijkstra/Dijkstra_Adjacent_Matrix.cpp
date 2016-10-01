@@ -36,8 +36,6 @@ void dijkstra(const vector<vector<int>> & graph, int src) {
     
 }
 
-
-
 int main(int c, char** v) {
     vector<vector<int>> graph = {
         {0, 4, 0, 0, 0, 0, 0, 8, 0},
