@@ -1,91 +1,110 @@
-class Edge {
-public:
-    Edge() {}
-    Edge(string s, string d, int w) {
-        src = s;
-        dst = d;
-        weight = w;
-    }
-    string src;
-    string dst;
-    int weight;
-};
+#include <stdio.h>
+#include <stdlib.h>
 
-class Group {
-public:
-    Group(){}
-    Group(int p, int r) {
-        parent = p;
-        group_id = r;
-    }
-    int parent;
-    int group_id;
-    
-};
+typedef struct Edge_t {
+	int src;
+	int dest;
+	int weight;
+} Edge;
 
-struct {
-    bool operator() (Edge & e1, Edge & e2){
-        if (e1.weight < e2.weight) {
-            return true;
-        } else if (e1.weight == e2.weight) {
-            return (e1.src < e2.src || e1.dst < e2.dst );
-        } else {
-            return false;
-        }
-     }
-} Cmp;
+typedef struct Graph_t {
+	int V, E;
+	Edge* edges;
+} Graph;
 
-int find(vector<Group> & group, int node_id) {
-    if (group[node_id].parent != node_id) {
-        group[node_id].parent = find(group, group[node_id].parent);
-    }
-    return group[node_id].parent;
+Graph* build_graph(int V, int E) {
+	Graph* graph = (Graph*)malloc(sizeof(Graph));
+	graph->V = V;
+	graph->E = E;
+	graph ->edges = (Edge*)malloc(E * sizeof(Edge));
+	return graph;
 }
 
-void union_group(vector<Group> & group, int node_a, int node_b) {
-    int root_a = find(group, node_a);
-    int root_b = find(group, node_b);
-    if (group[root_a].group_id < group[root_b].group_id) {
-        group[root_a].parent = root_b;
-    } else if (group[root_a].group_id > group[root_b].group_id) {
-        group[root_b].parent = root_a;
-    } else {
-        group[root_b].parent = root_a;
-        group[root_a].group_id++;
-    }
+typedef struct Subset_t {
+	int parent;
+	int rank;
+} Disjoint_Set;
+
+int find_set(Disjoint_Set allsets[], int x) {
+	if (allsets[x].parent != x) {
+		allsets[x].parent = find_set(allsets, allsets[x].parent);
+	}
+	return allsets[x].parent;
+} 
+
+void union_set(Disjoint_Set allsets[], int x, int y) {
+	int root_x = find_set(allsets, x);
+	int root_y = find_set(allsets, y);
+	if (allsets[root_x].rank > allsets[root_y].rank) {
+		allsets[root_y].parent = root_x;
+	} else if (allsets[root_x].rank < allsets[root_y].rank) {
+		allsets[root_x].parent = root_y;
+	} else {
+		allsets[root_x].parent = root_y;
+		allsets[root_y].rank++;
+	}
 }
 
-vector<Edge> MST(vector<Edge> edges, int V) {
-    vector<Edge> result;
-    sort(edges.begin(), edges.end(), Cmp);
-    priority_queue<Edge, vector<Edge>, decltype(Cmp)> pq(edges.begin(), edges.end());
+int Cmp (const void* e1, const void* e2) {
+	Edge* a = (Edge*) e1;	
+	Edge* b = (Edge*) e2;	
+	return a->weight > b->weight;
+}
 
-    int id = 0;
-    unordered_map<string, int> node_id;
-    for (int i = 0; i < edges.size(); i++) {
-        if (node_id.count(edges[i].src) == 0) {
-            node_id[edges[i].src] = id++;
-        }
-        if (node_id.count(edges[i].dst) == 0) {
-            node_id[edges[i].dst] = id++;
-        }
-    }
-    
-    vector<Group> group(V);
-    for (auto p : node_id) {
-        group[p.second] = (Group(p.second, 0));
-    }
-    
-    for (int i = 0; i < edges.size(); i++) {
-        if (result.size() == V - 1) {
-            return result;
-        }
-        int root_a = find(group, node_id[edges[i].src]);
-        int root_b = find(group, node_id[edges[i].dst]);
-        if (root_a != root_b) {
-            result.emplace_back(edges[i]);
-            union_group(group, root_a, root_b);
-        }
-    }
-    return {};
+void kruskal(Graph* graph) {
+	int V = graph->V;
+	Edge results[V];
+	int e = 0; //index to 
+
+	//step 1: sorts all edges in non-decreasing order of their weight
+	qsort(graph->edges, graph->E, sizeof(Edge), Cmp);
+	//step 2: make disjoint sets
+	Disjoint_Set allsets[V];
+	for (int i = 0; i < V; i++) {
+		allsets[i].parent = i;
+		allsets[i].rank = 0;
+	}
+	int i = 0;//index for edges	
+	while (e < V - 1) {
+		Edge next_edge = graph->edges[i++];
+		int root_x = find_set(allsets, next_edge.src);	
+		int root_y = find_set(allsets, next_edge.dest);	
+
+		if (root_x != root_y) {
+			results[e++] = next_edge;
+			union_set(allsets, root_x, root_y);
+		}
+	}
+		
+	for (i = 0; i < e; i++) {
+		printf("%d -- %d == %d\n", results[i].src, results[i].dest, results[i].weight);
+	}
+	return ;
+}
+
+int main() {
+
+	int V = 4;
+	int E = 5;
+
+	Graph* graph = build_graph(V, E);
+	
+	graph->edges[0].src = 0;
+	graph->edges[0].dest = 1;
+	graph->edges[0].weight= 10;
+	graph->edges[1].src = 0;
+	graph->edges[1].dest = 2;
+	graph->edges[1].weight= 6;
+	graph->edges[2].src = 0;
+	graph->edges[2].dest = 3;
+	graph->edges[2].weight= 5;
+	graph->edges[3].src = 1;
+	graph->edges[3].dest = 3;
+	graph->edges[3].weight= 15;
+	graph->edges[4].src = 2;
+	graph->edges[4].dest = 3;
+	graph->edges[4].weight= 4;
+	kruskal(graph);
+	return 0;
+
 }
