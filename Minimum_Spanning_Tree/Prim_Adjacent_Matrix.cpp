@@ -1,4 +1,4 @@
-http://www.geeksforgeeks.org/greedy-algorithms-set-5-prims-minimum-spanning-tree-mst-2/
+//http://www.geeksforgeeks.org/greedy-algorithms-set-5-prims-minimum-spanning-tree-mst-2/
 #define V 9
 int minKey(const vector<int> & key, const deque<bool> & visited) {
     int min = INT_MAX;
