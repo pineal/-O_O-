@@ -1,8 +1,10 @@
 //Reference:
 //http://www.geeksforgeeks.org/dijkstras-shortest-path-algorithm-using-priority_queue-stl/
 //Time Complexity: O(ElogV)
+
+//if we use fibonacci heap O(E + vlogv)
 #include <vector>
-#include <priority_queue>
+#include <queue>
 using namespace std;
 class Graph {
     int V;
