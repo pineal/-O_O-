@@ -1,5 +1,12 @@
 // A C++ Program to implement A* Search Algorithm
-#include<bits/stdc++.h>
+//#include<bits/stdc++.h>
+
+#include <stack>
+#include <math.h>
+#include <stdlib.h>
+#include <stdint.h>
+#include <limits.h>
+#include <set>
 using namespace std;
  
 #define ROW 9
