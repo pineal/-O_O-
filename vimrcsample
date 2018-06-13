@@ -1,0 +1,109 @@
+set nocompatible               " be iMproved
+filetype on                   " required!
+
+set number
+set ruler
+
+"语法高亮
+syntax enable
+syntax on
+
+"智能缩进
+set autoindent
+
+"设置缩进长度
+set tabstop=2
+set smarttab
+set smartindent
+set softtabstop=2
+set cindent
+set backspace=2
+set shiftwidth=2
+"set noexpandtab
+" 设置tab键跟行尾符显示出来
+"set list lcs=tab:&gt;-,trail:-
+
+set clipboard=unnamed
+set ttyfast
+set gdefault
+let mapleader=","
+set binary
+set noeol
+set history=50
+"设置自动换行
+set wrap
+set exrc
+set secure
+"set cursorline
+
+"set lcs=tab:▸\ ,nbsp:_ 
+"set list
+set hlsearch
+set ignorecase
+set incsearch
+set laststatus=2
+set modeline
+set modelines=4
+
+set mouse=a
+set nostartofline
+
+set showmode
+set title
+set showcmd
+set scrolloff=3
+
+"colorscheme Tomorrow-Night
+"set background=dark
+
+set wildmenu
+set esckeys
+set backspace=indent,eol,start
+
+
+let g:ycm_global_ycm_extra_conf = '~/Documents/ycmconf.py'
+
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+" " alternatively, pass a path where Vundle should install plugins
+" "call vundle#begin('~/some/path/here')
+"
+" " let Vundle manage Vundle, required
+Plugin 'VundleVim/Vundle.vim'
+Bundle 'gmarik/vundle'
+Bundle 'Valloric/YouCompleteMe'
+"
+" " The following are examples of different formats supported.
+" " Keep Plugin commands between vundle#begin/end.
+" " plugin on GitHub repo
+" Plugin 'tpope/vim-fugitive'
+" " plugin from http://vim-scripts.org/vim/scripts.html
+" " Plugin 'L9'
+" " Git plugin not hosted on GitHub
+" Plugin 'git://git.wincent.com/command-t.git'
+" " git repos on your local machine (i.e. when working on your own plugin)
+" Plugin 'file:///home/gmarik/path/to/plugin'
+" " The sparkup vim script is in a subdirectory of this repo called vim.
+" " Pass the path to set the runtimepath properly.
+" Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
+" " Install L9 and avoid a Naming conflict if you've already installed a
+" " different version somewhere else.
+" " Plugin 'ascenator/L9', {'name': 'newL9'}
+"
+" " All of your Plugins must be added before the following line
+call vundle#end()            " required
+filetype plugin indent on    " required
+" " To ignore plugin indent changes, instead use:
+" "filetype plugin on
+" "
+" " Brief help
+" " :PluginList       - lists configured plugins
+" " :PluginInstall    - installs plugins; append `!` to update or just
+" :PluginUpdate
+" " :PluginSearch foo - searches for foo; append `!` to refresh local cache
+" " :PluginClean      - confirms removal of unused plugins; append `!` to
+" auto-approve removal
+" "
+" " see :h vundle for more details or wiki for FAQ
+" " Put your non-Plugin stuff after this line
